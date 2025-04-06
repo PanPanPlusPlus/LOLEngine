@@ -26,7 +26,4 @@ target_include_directories(Game PRIVATE
 )
 
 # подключаем библиотеки
-target_link_libraries(Game 
-    LOLEngine
-    glfw
-    glm)
+target_link_libraries(Game LOLEngine)
