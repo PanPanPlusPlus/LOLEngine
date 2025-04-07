@@ -38,3 +38,7 @@ target_link_libraries(LOLEngine PUBLIC
 	glfw
     ${OPENGL_LIBRARIES}
 )
+
+if(APPLE)
+    target_compile_definitions(LOLEngine PRIVATE GL_SILENCE_DEPRECATION)
+endif()

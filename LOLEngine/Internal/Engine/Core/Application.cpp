@@ -1,10 +1,8 @@
-#include <thread>
-#include <chrono>
-
 #include <Engine/ExternalSettings.hpp>
 
 #include <Engine/Core/Application.hpp>
 #include <Engine/Core/Logger.hpp>
+#include <Engine/Core/Timer.hpp>
 #include <Engine/Core/ServiceProvider.hpp>
 
 namespace LOLCore{
@@ -20,8 +18,12 @@ namespace LOLCore{
         }
 
         auto applicationSettings = GetApplicationSettings();
+
+        _timer = std::make_shared<Timer>(applicationSettings.FPSLimit);
+
         _serviceProvider = std::make_shared<ServiceProvider>();
         _serviceProvider->RegisterService<Logger>(std::make_shared<Logger>(applicationSettings.logOutputType));
+        _serviceProvider->RegisterService<ITimer>(_timer);
 
         auto logger = _serviceProvider->GetService<Logger>();
 
@@ -49,10 +51,11 @@ namespace LOLCore{
 
         while(!glfwWindowShouldClose(_mainWindow)){
             glfwPollEvents();
-            glClearColor(1.f,0.f,0.f,1.f);
+            glClearColor(0.f ,0.f,0.f,1.f);
             glClear(GL_COLOR_BUFFER_BIT);
             glfwSwapBuffers(_mainWindow);
-            std::this_thread::sleep_for(std::chrono::milliseconds(30));
+
+            std::static_pointer_cast<Timer>(_timer)->EndFrameUpdate();
         }
     
     }

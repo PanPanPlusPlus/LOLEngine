@@ -9,5 +9,6 @@ namespace LOLCore{
         int screenHeight {600};
         std::string appName {"LOL Engine"};
         eLogOutputType logOutputType {eLogOutputType::Console};
+        uint16_t FPSLimit {0};
     }; // struct sApplicationSetting
 } // namespace LOLCore

@@ -5,6 +5,9 @@ namespace LOLCore{
     class ServiceProvider;
     using ServiceProviderPtr = std::shared_ptr<ServiceProvider>;
 
+    class ITimer;
+    using ITimerPtr = std::shared_ptr<ITimer>;
+
     enum class eLogLevel{
         Info,
         Warning,

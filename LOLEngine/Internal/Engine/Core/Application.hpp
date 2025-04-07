@@ -4,6 +4,8 @@
 #include <Engine/CommonEngineInfo.hpp>
 
 namespace LOLCore{
+    class Timer;
+
     class Application{
     public:
         Application() = default;
@@ -13,6 +15,7 @@ namespace LOLCore{
         void Loop();
         void Shutdown();
     private: // properties
+        ITimerPtr _timer;
         ServiceProviderPtr _serviceProvider;
         bool _isInited {false};
         GLFWwindow* _mainWindow {nullptr};
