@@ -24,6 +24,10 @@ namespace LOLCore{
         Log(eLogLevel::Info, message);
     }
 
+    void Logger::LogError(std::string_view message) const{
+        Log(eLogLevel::Error, message);
+    }
+
     void Logger::Log(eLogLevel logLevel, std::string_view message) const{
         auto logPrefixIt = gLogPrefixMap.find(logLevel);
         auto logPrefix = gLogPrefixMap.end() != logPrefixIt ? logPrefixIt->second : "UNKNOWN";

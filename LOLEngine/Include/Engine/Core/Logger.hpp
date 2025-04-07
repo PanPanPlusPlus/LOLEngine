@@ -13,6 +13,7 @@ namespace LOLCore{
         ~Logger();
 
         void Log(std::string_view) const;
+        void LogError(std::string_view) const;
         void Log(eLogLevel, std::string_view) const;
     private: // properties
         eLogOutputType _LogOutputType {eLogOutputType::Console};
