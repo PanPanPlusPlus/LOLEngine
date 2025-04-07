@@ -7,3 +7,4 @@ LOLCore::sApplicationSetting GetApplicationSettings(){
         .appName = "Game 1"
     };
 }
+
