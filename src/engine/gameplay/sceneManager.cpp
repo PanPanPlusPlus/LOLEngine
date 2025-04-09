@@ -30,6 +30,8 @@ namespace LOLGameplay{
 
     void SceneManager::SetCurrentScene(std::string_view sceneName){
         _currentScene = CreateScene(sceneName);
+        if(_currentScene)
+            _currentScene->Init();
     }
     
 // private: // methods

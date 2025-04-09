@@ -3,7 +3,8 @@
 
 LOLCore::sApplicationSettings GetApplicationSettings(){
     return {
-        .appName {"Empty example"}
+        .appName {"Empty example"},
+        .startScene {Game::MainScene::ClassName()},
     };
 }
 
