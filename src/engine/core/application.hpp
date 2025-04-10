@@ -5,11 +5,13 @@
 
 #include <engine/gameApp.hpp>
 
-#include <engine/core/glfwForward.hpp>
 #include <engine/gameplay/gameplayForward.hpp>
 
 
 namespace LOLCore{
+    class Window;
+    using WindowUPtrT = std::unique_ptr<Window>;
+
     class Application{
     public:
         Application();
@@ -43,7 +45,8 @@ namespace LOLCore{
         std::mutex _fixedUpdateMutex;
 
         GameApp _gameApp;
-        GLFWwindowUPtr _window {nullptr};
+        WindowUPtrT _window;
+        
         LOLGameplay::SceneManagerUPtrT _sceneManager;
     }; // Application
 } // namespace LOLCore

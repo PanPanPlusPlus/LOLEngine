@@ -1,8 +1,10 @@
 #include <chrono>
 #include <spdlog/spdlog.h>
-#include <GLFW/glfw3.h>
 
 #include <engine/core/application.hpp>
+//will branch it out later
+#include <engine/core/windowGLFW.hpp>
+
 #include <engine/gameplay/sceneManager.hpp>
 
 namespace LOLCore{
@@ -49,17 +51,17 @@ namespace LOLCore{
 
         StartFixedUpdateThread();
 
-        while(!glfwWindowShouldClose(_window.get())){
+        while(!_window->ShouldClose()){
             auto now = clock::now();
             auto deltaTime = now - lastUpdateTime;
             
-            glfwPollEvents();
+            _window->PollEvents();
 
             Update(deltaTime.count());
             PostUpdate(deltaTime.count());
             if(!frameTimeLimit.has_value() || ((now - lastFrameTime) >= frameTimeLimit.value())){
                 Draw();
-                glfwSwapBuffers(_window.get());
+                _window->SwapBuffers();
                 lastFrameTime = now;
             }
 
@@ -110,22 +112,9 @@ namespace LOLCore{
     }
 
     bool Application::InitWindow(){
-        if(GLFW_TRUE != glfwInit()){
-            spdlog::error("Failed to init GLFW");
+        _window = std::make_unique<Window>(_gameApp.GetWindowSettings());
+        if(!_window->Init())
             return false;
-        }
-
-        glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-        auto windowSettings = _gameApp.GetWindowSettings();
-        _window.reset(glfwCreateWindow(windowSettings.screenWidth, windowSettings.screenHeight, windowSettings.appName.c_str(), nullptr, nullptr));
-        if(!_window){
-            spdlog::error("Window is not created");
-            return false;
-        }
-
-        glfwMakeContextCurrent(_window.get());
-
         return true;
     }
 
