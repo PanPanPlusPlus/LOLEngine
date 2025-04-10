@@ -2,5 +2,5 @@
 
 int main(){
     LOLCore::Application app;
-    return app.Start();
+    return app.Execute();
 }

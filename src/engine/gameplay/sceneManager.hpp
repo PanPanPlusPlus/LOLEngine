@@ -9,14 +9,15 @@ namespace LOLGameplay{
         SceneManager();
         ~SceneManager();
         
+        void FixedUpdate(const double frameDelta);
         void Update(const double frameDelta);
+        void PostUpdate(const double frameDelta);
         void Draw() const;
 
         void SetCurrentScene(std::string_view sceneName);
-        
+        void RegisterScene(std::string_view, SceneCreateCallbackT);
     private: // methods
         ISceneSPtrT CreateScene(std::string_view) const;
-        void RegisterScene(std::string_view, SceneCreateCallbackT);
     private: // properties
         std::map<std::string_view, SceneCreateCallbackT> _sceneFactoryRegistry;
 

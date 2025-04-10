@@ -1,25 +1,32 @@
 #include <spdlog/spdlog.h>
 
-#include <engine/engineInit.hpp>
+#include <engine/gameApp.hpp>
 
 #include <engine/gameplay/sceneManager.hpp>
 #include <engine/gameplay/scene.hpp>
 
 
 namespace LOLGameplay{
-    SceneManager::SceneManager(){
-        
-        RegisterScenes([this](std::string_view name, SceneCreateCallbackT factory){
-            RegisterScene(name, factory);
-        });
-    }
+    SceneManager::SceneManager(){}
 
     SceneManager::~SceneManager(){}
     
+    void SceneManager::FixedUpdate(const double frameDelta){
+        if(!_currentScene)
+            return;
+        _currentScene->FixedUpdate(frameDelta);
+    }
+
     void SceneManager::Update(const double frameDelta){
         if(!_currentScene)
             return;
         _currentScene->Update(frameDelta);
+    }
+
+    void SceneManager::PostUpdate(const double frameDelta){
+        if(!_currentScene)
+            return;
+        _currentScene->PostUpdate(frameDelta);
     }
 
     void SceneManager::Draw() const{
@@ -32,16 +39,6 @@ namespace LOLGameplay{
         _currentScene = CreateScene(sceneName);
         if(_currentScene)
             _currentScene->Init();
-    }
-    
-// private: // methods
-    ISceneSPtrT SceneManager::CreateScene(std::string_view sceneName) const{
-        auto registryIt = _sceneFactoryRegistry.find(sceneName);
-        if(_sceneFactoryRegistry.end() == registryIt){
-            spdlog::error("Scene {} not registred", sceneName);
-            return nullptr;
-        }
-        return registryIt->second();
     }
 
     void SceneManager::RegisterScene(std::string_view sceneName, SceneCreateCallbackT factoryCallback){
@@ -61,5 +58,15 @@ namespace LOLGameplay{
         }
 
         _sceneFactoryRegistry[sceneName] = factoryCallback;
+    }
+    
+// private: // methods
+    ISceneSPtrT SceneManager::CreateScene(std::string_view sceneName) const{
+        auto registryIt = _sceneFactoryRegistry.find(sceneName);
+        if(_sceneFactoryRegistry.end() == registryIt){
+            spdlog::error("Scene {} not registred", sceneName);
+            return nullptr;
+        }
+        return registryIt->second();
     }
 } // namespace LOLGameplay

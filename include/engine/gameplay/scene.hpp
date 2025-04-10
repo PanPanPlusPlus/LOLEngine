@@ -9,6 +9,8 @@ namespace LOLGameplay{
     public:
         virtual ~IScene() = default;
         virtual void Init() = 0;
+        virtual void FixedUpdate(const double deltaTime) = 0;
+        virtual void PostUpdate(const double deltaTime) = 0;
         virtual void Update(const double deltaTime) = 0;
         virtual void Draw() const = 0;
     }; //class IScene
